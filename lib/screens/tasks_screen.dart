@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:nilskrannig/widgets/tasks_list.dart';
 import 'package:nilskrannig/screens/add_task_screen.dart';
-import 'package:nilskrannig/models/task.dart';
+import 'package:nilskrannig/models/task_data.dart';
+import 'package:provider/provider.dart';
 
 class TasksScreen extends StatefulWidget {
   @override
@@ -11,12 +12,6 @@ class TasksScreen extends StatefulWidget {
 
 class _TasksScreenState extends State<TasksScreen> {
   Widget buildBottomSheet(BuildContext context) => Container();
-
-  List<Task> tasks = [
-    Task(name: 'Milch'),
-    Task(name: 'Brot'),
-    Task(name: 'Käse'),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +25,7 @@ class _TasksScreenState extends State<TasksScreen> {
             builder: (context) => SingleChildScrollView(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: AddTaskScreen(
-                addTaskCallback: (name) {
-                  setState(() {
-                    tasks.add(
-                      Task(name: name),
-                    );
-                  });
-                },
-              ),
+              child: AddTaskScreen(),
             ),
             isScrollControlled: true,
           );
@@ -75,7 +62,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                 ),
                 Text(
-                  '${tasks.length} Tasks',
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -87,7 +74,7 @@ class _TasksScreenState extends State<TasksScreen> {
           Expanded(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: TasksList(tasks: tasks),
+              child: TasksList(),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(

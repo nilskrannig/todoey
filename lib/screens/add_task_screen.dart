@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:nilskrannig/models/task.dart';
+import 'package:nilskrannig/models/task_data.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  final Function addTaskCallback;
-
-  AddTaskScreen({this.addTaskCallback});
-
   @override
   Widget build(BuildContext context) {
     String _taskName;
@@ -42,7 +42,9 @@ class AddTaskScreen extends StatelessWidget {
               color: Colors.lightBlueAccent,
               textColor: Colors.white,
               onPressed: () {
-                addTaskCallback(_taskName);
+                Provider.of<TaskData>(context, listen: false).addTask(
+                  Task(name: _taskName),
+                );
                 Navigator.pop(context);
               },
               child: Text(
